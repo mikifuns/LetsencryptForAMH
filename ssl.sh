@@ -107,19 +107,11 @@ function pre_install(){
    echo -e "\033[47;31m Please Check!If everythings OK,Press any key to start...or Press Ctrl+C to cancel \033[0m"
    char=`get_char`
    #check SSL is ready?
-    if [ -f /home/wwwroot/${webename}/etc/${sslname}-ssl/${sslname}.crt ]; then
-		echo "SSL file crt is READY!"
+    if [ -e /home/wwwroot/${webename}/etc/${sslname}-ssl ]; then
+		echo "=====================SSL file is READY!===================="
 	else
         echo
-		echo -e "\033[47;31m SSL file <CRT> IS NOT READY!Please GO AMH panel to create A SSL for This Domian! \033[0m"
-        echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
-        exit 1
-	fi
-	if [ -f /home/wwwroot/${webename}/etc/${sslname}-ssl/${sslname}.key ]; then
-		echo "SSL file key is READY!"
-	else
-        echo
-		echo -e "\033[47;31m SSL file <KEY> IS NOT READY!Please GO AMH panel to create A SSL for This Domian! \033[0m"
+		echo -e "\033[47;31m SSL file =IS NOT READY!Please GO AMH panel to create A SSL for This Domian! \033[0m"
         echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
         exit 1
 	fi
@@ -144,6 +136,7 @@ function pre_install(){
 function config_ssl(){
     if [ ! -d /root/${webename}/${webdlogo} ];then
         mkdir -p /root/${webename}/${webdlogo}
+        echo "========Dir Can't Found.Just Create.========"
     fi
     cat > /root/${webename}/${webdlogo}/letsencrypt.conf<<-EOF
 
@@ -155,21 +148,29 @@ DOMAINS="${webdomain}"
 #ECC=TRUE
 #LIGHTTPD=TRUE
 EOF
+echo "==========Conf file IS READY!=========="
 }
 
 # Install 
 function install_ssl(){
     # Install shadowsocks-go
     if [ -s /root/${webename}/${webdlogo}/letsencrypt.conf ]; then
-        echo "Every Thing IS READY!"
-		cd /root/${webename}/${webdlogo}
+        echo "==============Conf IS READY!=============="
+        cd /root/${webename}/${webdlogo}
         chmod +x letsencrypt.sh
         ./letsencrypt.sh letsencrypt.conf
+        echo "==============SSL File GET Finish=============."
 		rm -rf ${sslname}.crt
 		mv ${sslname}.chained.crt ${sslname}.crt
+		echo "=================SSL File Is Ready!================="
+		amh apache stop
+		echo "==============Apache Is STOP NOW!================"
 		mv -f /root/${webename}/${webdlogo}/${sslname}.crt /home/wwwroot/${webename}/etc/${sslname}-ssl
 		mv -f /root/${webename}/${webdlogo}/${sslname}.key /home/wwwroot/${webename}/etc/${sslname}-ssl
-		amh apache restart
+		echo "==============File Copy Over================="
+		amh apache start
+		amh apache reload
+	        echo "==============Apache Is Work NOW!================="
     else
         echo
         echo "Not Ready!Please Restart SH Again!(conf LOST)"
