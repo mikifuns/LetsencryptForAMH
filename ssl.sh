@@ -171,6 +171,8 @@ function install_ssl(){
 		amh apache start
 		amh apache reload
 	        echo "==============Apache Is Work NOW!================="
+	        
+	        
     else
         echo
         echo "Not Ready!Please Restart SH Again!(conf LOST)"
