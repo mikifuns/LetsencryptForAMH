@@ -6,8 +6,8 @@ This is my first project. It will be used to help webmasters volume licensing am
 这是我的第一个项目.它将用于帮助网站管理员批量发布amh上的网站的SSL证书.SSL证书是由Let’s Encrypt提供的.
 #注意事项
 待补充
-#同名项目
-[同名项目在Github](https://github.com/mikifuns/LetsencryptForAMH)
+#同名项目在中国
+[同名项目在码云](https://git.oschina.net/mikiacg/LetsencryptForAMH)
 #Donate Us 捐助我们
 ![捐助我们Alipay](https://owncloudmiki.b0.upaiyun.com/alipay.png "Donate Us Alipay")Donate Us Alipay
 ![捐助我们Weixin](https://owncloudmiki.b0.upaiyun.com/weixin.png "Donate Us Weixin")Donate Us Weixin
