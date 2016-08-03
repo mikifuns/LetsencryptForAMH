@@ -123,12 +123,12 @@ function pre_install(){
     if [ "$OS" == 'CentOS' ];then
         mkdir -p /root/${webename}/${webdlogo}
 		cd /root/${webename}/${webdlogo}
-		wget https://raw.githubusercontent.com/xdtianyu/scripts/master/lets-encrypt/letsencrypt.sh    
+		wget https://raw.githubusercontent.com/mikifuns/LetsencryptForAMH/master/letsencryptcn.sh
 		
 		else
 		mkdir -p /root/${webename}/${webdlogo}
 		cd /root/${webename}/${webdlogo}
-        wget https://raw.githubusercontent.com/xdtianyu/scripts/master/lets-encrypt/letsencrypt.sh   
+        wget https://raw.githubusercontent.com/mikifuns/LetsencryptForAMH/master/letsencryptcn.sh
 		
     fi
 }
@@ -161,8 +161,8 @@ function install_ssl(){
         echo "==============设置文件准备完毕!=============="
         cd /root/${webename}/${webdlogo}
         # 给予证书获取程序所有权 并运行
-        chmod +x letsencrypt.sh
-        ./letsencrypt.sh letsencrypt.conf
+        chmod +x letsencryptcn.sh
+        ./letsencryptcn.sh letsencrypt.conf
         echo "==============SSL文件获取完毕=============."
 		#删除残缺证书
 		rm -rf ${sslname}.crt
@@ -208,8 +208,8 @@ cat > /root/${webename}/${webdlogo}/${sslname}.sh<<-EOF
 
 #!/bin/sh
 cd /root/${webename}/${webdlogo}
-        chmod +x letsencrypt.sh
-        ./letsencrypt.sh letsencrypt.conf
+        chmod +x letsencryptcn.sh
+        ./letsencryptcn.sh letsencrypt.conf
 		rm -rf ${sslname}.crt
 		mv ${sslname}.chained.crt ${sslname}.crt
 		amh apache stop
