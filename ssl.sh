@@ -14,7 +14,7 @@ clear
 echo
 echo "#############################################################"
 echo "# One click Get Let’s Encrypt For Your AMH WebSite          #"
-echo "# Support: https://mikifuns.com  QQ:2306285095(Break Time)  #"
+echo "# Support: http://mikifuns.com  QQ:2306285095(Break Time)  #"
 echo "# Author: Miki.Technology <mikifuns@mikifuns.com>           #"
 echo "# Thanks: @mikifuns <https://twitter.com/mikifuns>          #"
 echo "# Thank You! Let’s Encrypt <https://letsencrypt.org/>       #"
@@ -25,6 +25,7 @@ echo -e "\033[47;31m#  AND!GO AMH panel to create A SSL for This Domian FIRST!  
 echo -e "\033[47;31m# The SSL NAME MUST!same as Domain Logo NAME! Please Check! # \033[0m"
 echo "#             And Don't Forget To Apply Your SSL !          #"
 echo -e "\033[47;31m# 如果正常显示简体中文,您可以到下面的地址下载简体中文版程序 # \033[0m"
+echo -e "\033[47;31m# https://github.com/mikifuns/LetsencryptForAMH 选择sslCN.sh# \033[0m"
 echo "#############################################################"
 echo
 
@@ -32,7 +33,7 @@ echo
 function rootness(){
     if [[ $EUID -ne 0 ]]; then
        echo "Error:This script must be run as root USER!" 1>&2
-	   echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
+	   echo "For More Information,please visit:http://www.mikifuns.com or QQ:2306285095(Only Break time)"
        exit 1
     fi
 }
@@ -47,7 +48,7 @@ function checkos(){
         OS=Ubuntu
     else
         echo "Not supported OS, Please reinstall OS and retry!"
-		echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
+		echo "For More Information,please visit:http://www.mikifuns.com or QQ:2306285095(Only Break time)"
         exit 1
     fi
 }
@@ -112,8 +113,8 @@ function pre_install(){
 		echo "=====================SSL file is READY!===================="
 	else
         echo
-		echo -e "\033[47;31m SSL file =IS NOT READY!Please GO AMH panel to create A SSL for This Domian! \033[0m"
-        echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
+		echo -e "\033[47;31m SSL file IS NOT READY!Please GO AMH panel to create A SSL for This Domian! \033[0m"
+        echo "For More Information,please visit:http://www.mikifuns.com or QQ:2306285095(Only Break time)"
         exit 1
 	fi
     
@@ -182,7 +183,7 @@ function install_ssl(){
     else
         echo
         echo "Not Ready!Please Restart SH Again!(conf LOST)"
-		echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
+		echo "For More Information,please visit:http://www.mikifuns.com or QQ:2306285095(Only Break time)"
         exit 1
     fi
     }
@@ -229,7 +230,7 @@ function finish(){
     echo "Congratulations, Let’s Encrypt SSL For Domain "${webdomain}" is completed!"
     echo -e "Your web file is in: /home/wwwroot/"${webename}"/domain/"${webdlogo}"/web  Named:"${sslname}" ."
     echo 
-    echo "Welcome to visit:https://Mikifuns.com"
+    echo "Welcome to visit:http://Mikifuns.com"
     echo "Enjoy it!"
     echo
     exit 1
@@ -260,6 +261,6 @@ install)
 *)
     echo "Arguments error! [${action} ]"
     echo "Usage: `basename $0` {install|install}"
-	echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
+	echo "For More Information,please visit:http://www.mikifuns.com or QQ:2306285095(Only Break time)"
     ;;
 esac
