@@ -10,6 +10,7 @@ export PATH
 #==================================================================
 
 clear
+# 提示信息
 echo
 echo "#############################################################"
 echo "# One click Get Let’s Encrypt For Your AMH WebSite          #"
@@ -27,7 +28,7 @@ echo -e "\033[47;31m# 如果正常显示简体中文,您可以到下面的地址
 echo "#############################################################"
 echo
 
-# Make sure only root can run our script
+# 确保运行于root权限
 function rootness(){
     if [[ $EUID -ne 0 ]]; then
        echo "Error:This script must be run as root USER!" 1>&2
@@ -36,7 +37,7 @@ function rootness(){
     fi
 }
 
-# Check OS
+# 检察系统
 function checkos(){
     if [ -f /etc/redhat-release ];then
         OS=CentOS
@@ -52,9 +53,9 @@ function checkos(){
 }
 
 
-# Pre-installation settings
+# 安装设定
 function pre_install(){
-    # Set Environmental name
+    # 环境名称
     echo "Please input Site Environmental name(You can get it from panel):"
     read -p "(For Example: /home/wwwroot/<Environmental name>/domain/<Domain logo>/web):" webename
     [ -z "$webename" ] && webename="example"
@@ -63,7 +64,7 @@ function pre_install(){
     echo "Environmental name = $webename"
     echo "---------------------------"
     echo
-	# Set Domain logo
+	# 标识域名
     echo "Please input Domain logo(You can get it from panel):"
     read -p "(For Example: /home/wwwroot/<Environmental name>/domain/<Domain logo>/web):" webdlogo
     [ -z "$webdlogo" ] && webdlogo="example"
@@ -72,7 +73,7 @@ function pre_install(){
     echo "Domain logo = $webdlogo"
     echo "---------------------------"
     echo
-	# Set SSl NAME
+	# 证书名称
     echo "Please input SSL name(You can get it from panel):"
     read -p "(For Example: example):" sslname
     [ -z "$sslname" ] && sslname="example"
@@ -81,7 +82,7 @@ function pre_install(){
     echo "SSL name = $sslname"
     echo "---------------------------"
     echo
-    # Set WEbsite Domain
+    # 网站域名
     while true
     do
     echo -e "Please input The Domain You need install(like >DNS:example.com,DNS:www.example.com<)"
@@ -106,7 +107,7 @@ function pre_install(){
     }
    echo -e "\033[47;31m Please Check!If everythings OK,Press any key to start...or Press Ctrl+C to cancel \033[0m"
    char=`get_char`
-   #check SSL is ready?
+   # 检查ssl证书目录是否存在
     if [ -e /home/wwwroot/${webename}/etc/${sslname}-ssl ]; then
 		echo "=====================SSL file is READY!===================="
 	else
@@ -116,7 +117,7 @@ function pre_install(){
         exit 1
 	fi
     
-    #Install necessary dependencies
+    # 获取证书获取程序
     if [ "$OS" == 'CentOS' ];then
         mkdir -p /root/${webename}/${webdlogo}
 		cd /root/${webename}/${webdlogo}
@@ -132,7 +133,7 @@ function pre_install(){
 
 
 
-# Config ssl
+# 配置证书设定
 function config_ssl(){
     if [ ! -d /root/${webename}/${webdlogo} ];then
         mkdir -p /root/${webename}/${webdlogo}
@@ -151,24 +152,29 @@ EOF
 echo "==========Conf file IS READY!=========="
 }
 
-# Install 
+# 安装证书 
 function install_ssl(){
-    # Install shadowsocks-go
+    # 检查证书配置文件是否存在
     if [ -s /root/${webename}/${webdlogo}/letsencrypt.conf ]; then
         echo "==============Conf IS READY!=============="
         cd /root/${webename}/${webdlogo}
+        # 给予证书获取程序所有权 并运行
         chmod +x letsencrypt.sh
         ./letsencrypt.sh letsencrypt.conf
         echo "==============SSL File GET Finish=============."
+		#删除残缺证书
 		rm -rf ${sslname}.crt
+		#重命名完整证书到正确名称
 		mv ${sslname}.chained.crt ${sslname}.crt
 		echo "=================SSL File Is Ready!================="
+		#停止apache
 		amh apache stop
 		echo "==============Apache Is STOP NOW!================"
+		#复制证书到SSL文件夹
 		mv -f /root/${webename}/${webdlogo}/${sslname}.crt /home/wwwroot/${webename}/etc/${sslname}-ssl
 		mv -f /root/${webename}/${webdlogo}/${sslname}.key /home/wwwroot/${webename}/etc/${sslname}-ssl
 		echo "==============File Copy Over================="
-		amh apache start
+		#启动apache
 		amh apache reload
 	        echo "==============Apache Is Work NOW!================="
 	        
@@ -179,6 +185,44 @@ function install_ssl(){
 		echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
         exit 1
     fi
+    }
+    
+    
+
+# 设定计划任务
+function install_corn(){
+#安装计划任务程序
+    if [ "$OS" == 'CentOS' ];then
+        yum -y install vixie-cron crontabs
+		chkconfig crond on
+		service crond start
+		else
+		apt-get -y install cron
+		/etc/init.d/cron restart	
+    fi
+    #创建计划任务所需运行的程序
+cat > /root/${webename}/${webdlogo}/${sslname}.sh<<-EOF
+
+#!/bin/sh
+cd /root/${webename}/${webdlogo}
+        chmod +x letsencrypt.sh
+        ./letsencrypt.sh letsencrypt.conf
+		rm -rf ${sslname}.crt
+		mv ${sslname}.chained.crt ${sslname}.crt
+		amh apache stop
+		mv -f /root/${webename}/${webdlogo}/${sslname}.crt /home/wwwroot/${webename}/etc/${sslname}-ssl
+		mv -f /root/${webename}/${webdlogo}/${sslname}.key /home/wwwroot/${webename}/etc/${sslname}-ssl
+		amh apache restart	     
+EOF
+       
+   	    echo "==============crontab is READY!================="
+	   #复制程序到每月运行文件夹
+	    mv ${sslname}.sh /etc/cron.monthly
+		echo "==============Copy Cron Over!================="
+}
+
+# 完成
+function finish(){
     cd $cur_dir
     clear
     echo
@@ -191,13 +235,15 @@ function install_ssl(){
     exit 1
 }
 
-# Install SSL
+# 安装步骤
 function install_sslsetp(){
     checkos
     rootness
     pre_install
     config_ssl
-	install_ssl
+    install_ssl
+    install_corn
+    finish
 }
 
 
@@ -213,7 +259,7 @@ install)
     ;;
 *)
     echo "Arguments error! [${action} ]"
-    echo "Usage: `basename $0` {install|uninstall}"
+    echo "Usage: `basename $0` {install|install}"
 	echo "For More Information,please visit:https://www.mikifuns.com or QQ:2306285095(Only Break time)"
     ;;
 esac
