@@ -1,6 +1,6 @@
 {
   "name": "Let’s Encrypt For AMH",
-  "tagline": "This Is a project FOR letsencrypt SSL on AMH panel",
-  "body": "\r\n### What's This?\r\nThis is a convenience for the miki.acg led AMH users a project that will help the user authorization SSL amh site.\r\n\r\n### What do I need to pay attention?\r\nnone.\r\n\r\n### 这是什么?\r\n这是一个由miki.acg主导的为了方便AMH用户的一个项目,它将帮助用户授权amh的网站的SSL.\r\n\r\n### 我需要注意什么?\r\n暂无\r\n\r\n### 需要支持?Need Support\r\nhttps://mikifuns.com mikifuns#mikifuns.com QQ:2306285095\r\n欢迎捐助我们!Donate US:paypal:mikifuns@mikifuns.com Weixin:zwjblog9951 Alipay:zwjblog@sina.com 陈学红",
+  "tagline": "针对AMH面板推出的半自动化SSL证书获得程序.This is a project for amh ssl by Let’s Encrypt",
+  "body": "# Letsencrypt For AMH\r\nThis Is a project FOR letsencrypt SSL on AMH panel\r\n#About This..(tr by google)\r\nThis is my first project. It will be used to help webmasters volume licensing amh SSL certificate .SSL certificate is provided by Let's Encrypt.\r\n#关于本项目\r\n这是我的第一个项目.它将用于帮助网站管理员批量发布amh上的网站的SSL证书.SSL证书是由Let’s Encrypt提供的.\r\n#注意事项\r\n待补充\r\n#同名项目在中国\r\n[同名项目在码云](https://git.oschina.net/mikiacg/LetsencryptForAMH)\r\n#Donate Us 捐助我们\r\n![捐助我们Alipay](https://owncloudmiki.b0.upaiyun.com/alipay.png \"Donate Us Alipay\")Donate Us Alipay\r\n![捐助我们Weixin](https://owncloudmiki.b0.upaiyun.com/weixin.png \"Donate Us Weixin\")Donate Us Weixin\r\n###  **PayPal  mikifuns@mikifuns.com** \r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
