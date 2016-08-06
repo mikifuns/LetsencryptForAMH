@@ -216,7 +216,7 @@ function finish(){
     echo -e "\033[47;31m您选择的是手动配置计划任务版本,所以您需要手动添加计划任务! \033[0m"
 	echo -e "\033[47;31m请您在Shell中输入"crontab -e" \033[0m"
 	echo -e "\033[47;31m然后按Ins键,选择新一行输入 0 0 1 * * /root/"${webename}"/"${webdlogo}"/"${sslname}".sh \033[0m"
-    echo -e "\033[47;31m然后按Esc键,输入":wq"来保存.这样就结束了 \033[0m"
+    echo -e "\033[47;31m然后按Esc键,输入:wq来保存.这样就结束了 \033[0m"
 	echo -e "\033[47;31m如有问题请联系我: QQ:2306285095(仅限休息时间) \033[0m"
 	echo "欢迎访问我的博客:http://Mikifuns.com"
     echo "尽情享受吧~!"
