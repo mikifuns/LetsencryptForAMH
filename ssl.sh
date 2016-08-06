@@ -120,6 +120,7 @@ function pre_install(){
     
     # 获取证书获取程序
     if [ "$OS" == 'CentOS' ];then
+     yum -y install python-argparse
         mkdir -p /root/${webename}/${webdlogo}
 		cd /root/${webename}/${webdlogo}
 		wget https://raw.githubusercontent.com/xdtianyu/scripts/master/lets-encrypt/letsencrypt.sh    
